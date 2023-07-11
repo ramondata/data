@@ -27,3 +27,12 @@
   ```
   create extension hstore
   ```
+  - Utilize o hstore ao criar uma tabela nova, aplique o hstore como o tipo de dado referencia do campo
+    ```
+    create table meus_sentimentos_expostos (
+    nome varchar,
+    sobrenome varchar,
+    idade integer,
+    sentimentos hstore
+    )
+    ```
