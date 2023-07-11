@@ -36,3 +36,25 @@
     sentimentos hstore
     )
     ```
+
+  - Realizando um insert manual basico para verificar:
+    ```
+    insert into meus_sentimentos_expostos
+    values (
+    'Mickey',
+    'Mouse',
+    120,
+    '"data"=>"11/07/2023", "sentimento"=>"satisfacao"'
+    )
+    ```
+
+  - Consultado esse dado:
+    ```
+    select
+    nome,
+    sobrenome,
+    idade,
+    sentimentos -> 'data' as datas
+    from meus_sentimentos_expostos
+    ```
+    > Mickey | Mouse | 120 | 11/07/2023
