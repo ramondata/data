@@ -63,5 +63,6 @@
     ```
     update meus_sentimentos_expostos
     set sentimentos =
-    replace(sentimentos::text, '""=>""' 
+    replace(sentimentos::text, '"sentimento"=>"satisfacao"'::text, '"sentimento"=>"aconchego"'::text)::hstore
+    where sentimentos -> 'data' = '11/07/2023'
     ```
