@@ -58,3 +58,10 @@
     from meus_sentimentos_expostos
     ```
     > Mickey | Mouse | 120 | 11/07/2023
+
+  - Realizando uma atualizção em uma tupla da tabela:
+    ```
+    update meus_sentimentos_expostos
+    set sentimentos =
+    replace(sentimentos::text, '""=>""' 
+    ```
