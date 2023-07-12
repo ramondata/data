@@ -66,3 +66,34 @@
     replace(sentimentos::text, '"sentimento"=>"satisfacao"'::text, '"sentimento"=>"aconchego"'::text)::hstore
     where sentimentos -> 'data' = '11/07/2023'
     ```
+
+  - Obtendo uma lista com o nome das `keys` do hstore:
+    ```
+    -- visualizar como um conjunto
+    select distinct akeys(sentimentos)
+    from meus_sentimentos_expostos
+
+    --or
+
+    -- visualizar uma lista no retorno
+    select distinct skeys(sentimentos)
+    from meus_sentimentos_expostos
+    ```
+
+  - Para obter os `valores` ao invés das chaves, basta substituir a função akeys,skeys por avals ou svals
+
+  - Para fazer uma consulta que retorne apenas os registros que possuam determinada chave:
+    ```
+    select *
+    from meus_sentimentos_expostos
+    where sentimentos ? 'data'
+    ```
+    - Esse tipo de consulta é extremamente útil pelo fato de cada registro ter um esquema distinto, ou seja, sem esquema algum determinado.
+
+  - Outra forma de fazer filtros com a coluna do tipo hstore:
+  ```
+  select * from meus_sentimentos_expostos
+  where sentimentos @> '"sentimento"=>"alegria"'::hstore
+  ``` 
+
+
