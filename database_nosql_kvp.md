@@ -95,5 +95,105 @@
   select * from meus_sentimentos_expostos
   where sentimentos @> '"sentimento"=>"alegria"'::hstore
   ``` 
+- [x] Data type `json` e `jsonb`:
+
+  - Formato de transferencia de dados mais usado atualmente.
+  - Seu predecessor é o xml(possui schema) e o formato que vem pra substituir ou facilitar ainda mais a transferencia de dados e o yaml ou yml.
+  - No momento de criar a tabela no postgresql, informe o tipo de dado como json para a tabela especificada.
+    ```
+    create table pedidos (
+    num_pedido serial primary key,
+    detalhes json not null
+    )
+    ```
+  - Abaixo um simples insert:
+    ```
+    insert into pedidos (detalhes) values (
+    '{
+      "cliente":"chiquinha",
+      "produto":"sanduiche presunto",
+      "qtd":"3",
+      "peso":"0.5kg"
+    }'
+    )
+    ```
+
+  - Vamos realizar uma simples consulta:
+    ```
+    -- a coluna detalhes é do tipo json
+    select detalhes -> 'cliente' as cliente
+    from pedidos limit 5
+    ```
+
+  - Para conseguirmos utilizar de fato um `distinct` ou `order by`, precisamos converter o tipo da coluna de `json` para `text`:
+    ```
+    -- o sinal ->> além de acessar o dado na coluna de tipo json, converte este dado para o tipo texto
+    
+    select distinct
+    detalhes ->> 'cliente' as cliente
+    from pedidos
+    order by 1
+    ```
+
+  - Realizando uma filtragem com o tipo json na coluna selecionada:
+    ```
+    select * from pedidos
+    where (detalhes ->> 'cliente'::text) = 'chiquinha'
+    ```
+
+  - Para visualizar melhor cada par chave-valor na consulta acima, podemos usar a função json_each(coluna_json), como abaixo:
+    ```
+    select json_each(detalhes)
+    from pedidos
+    where (detalhes ->> 'cliente'::text) = 'chiquinha'
+    ```
+
+  - Quando uma chave tem vários valores inseridos, podemos acessar cada um individualmente da forma abaixo:
+    ```
+    -- exemplo de json com varios itens em uma chave:
+    {
+    "itens" : [
+        {"bike":"caloi", "qtd":"2"},
+        {"carro":"ecosport", "qtd":"1"},
+        {"carro":"honda city", "qtd":"1"}
+    ]
+    }
+    ```
+
+    ```
+    select detalhes -> 'itens' ->> 0 -- o numero zero representa o primeiro elemento da lista dentro das chaves acima
+    from pedidos
+    ```
+
+  - Verificando os tipos de dados:
+    ```
+    -- verificando a coluna
+    select json_typeof(detalhes) as detalhes from pedidos
+
+    -- verificando um chave do json
+    select json_typeof(detalhes -> 'itens') as itens
+    from pedidos
+    ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
 
 
