@@ -108,3 +108,105 @@ db.nome_da_colecao.insert(
 db.nome_da_colecao.find()
 ```
 
+
+- [x] Inserindo multiplos documentos
+```
+db.nome_da_colecao.insert(
+[
+  { inserir aqui os pares chave valor do documento 1 },
+  { inserir aqui os pares chave valor do documento 2 },
+  ... n documentos
+]
+```
+
+- Cada documento recebe um id unico no momento da inserção
+
+
+
+- [x] Apagar registros de uma coleção
+```
+db.nome_da_colecao.remove({})
+
+-- esse comando exclui todos os documentos
+```
+
+
+- [x] Destruindo um database
+```
+db.dropDatabase()
+-- tenha certeza que está dentro do db certo
+```
+
+
+- [x] Realizando a leitura/ consulta do documento com filtragem de dados
+```
+db.nome_da_colecao.find({key : 'value'})
+
+-- varios valores
+db.nome_da_colecao.find({key : {$in: [valor1, valor, valor3]}})
+```
+
+
+- [x] Realizando leitura/ consulta com filtragem de comparação
+```
+db.nome_da_colecao.find({peso : {$eq : 10}})
+```
+- As clausulas de comparação são semelhantes as usadas em shell script
+  - [x] eq : equal
+  - [x] lt : less than
+  - [x] lte : less than or equal
+  - [x] gt : greater than
+  - [x] gte : greater than or equal
+  - [x] ne : not equal
+ 
+
+
+- [x] Alterando documentos
+```
+try {
+db.nome_da_colecao.updateOne(
+{"produto" : "produto_3"},
+{$set : {"qtd": 25}});
+} catch (e) {
+  print(e); }
+```
+
+- Para realizar a alteração em vários documento usar a cláusula updateMany
+
+
+
+- [x] Aplicando um distinct nos documentos
+```
+db.nome_da_colecao.distinct("key")
+```
+
+
+- [x] Contagem do número de documentos a coleção possui
+```
+db.nome_da_colecao.countDocuments({})
+```
+
+
+- [x] Deletar um documento
+```
+try {
+db.nome_da_colecao.deleteOne({"_id" : numero_id});}
+catch (e) {
+  print(e);}
+```
+
+
+- [x] Realizando a leitura/ consulta do documento de forma bonita
+```
+db.nome_da_colecao.find({}).pretty()
+```
+
+
+- [x] Ordenando os documentos
+```
+db.nome_da_colecao.find({}, {"key", "value", "_id": "value"}).sort({"key": -1})
+```
+
+- Na utilização do sort para ordenação
+- [x] 1 = asc
+- [x] -1 = desc 
